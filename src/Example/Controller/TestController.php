@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Aolbrich\PhpRouter\Example\Controller;
 
-class TestController {
+class TestController
+{
     public function index()
     {
         echo "works";
@@ -17,4 +18,3 @@ class TestController {
         echo 'Works';
     }
 }
-

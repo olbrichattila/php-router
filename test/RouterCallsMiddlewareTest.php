@@ -12,9 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 require_once 'MockControllers/MockController.php';
 require_once 'MockMiddlewares/MockMiddleware.php';
-/**
- * Summary of ContainerTest
- */
+
 class RouterCallsMiddlewareTest extends TestCase
 {
     public function testRouterInvokesMiddleware(): void
@@ -24,10 +22,11 @@ class RouterCallsMiddlewareTest extends TestCase
         $router = new RouterService($request, new Container());
         $router->middleware([
             MockMiddleware::class
-        ],[
+        ], [
             MockMiddleware::class
-        ], function($router) {
-            $router->get('/', function() {});
+        ], function ($router) {
+            $router->get('/', function () {
+            });
         });
         $middlewareResults = $router->run();
 

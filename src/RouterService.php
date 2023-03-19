@@ -47,22 +47,18 @@ class RouterService
             if (!$route) {
                 //$todo cannot resolve, @todo throw 404
                 die('404');
-                // return;
             }
 
             $this->lastBeforeMiddlewareResults = $this->runMiddlewares($uri, $method, false);
 
-            $parameters = $this->getMatches($route[self::ROUTE_DEFINITION_INDEX], $uri);
+            $urlParameters = $this->matchingUrlParameters($route[self::ROUTE_DEFINITION_INDEX], $uri);
             $resolvedRouteAction = $route[self::RESOLVED_ACTION_STRUCT_INDEX];
-
-            // $middlewareResults = $this->lastBeforeMiddlewareResults[$method][$uri];
-
             if (is_callable($resolvedRouteAction)) {
-                $this->resolveCallbackRoute($resolvedRouteAction, $parameters);
+                $this->resolveCallbackRoute($resolvedRouteAction, $urlParameters);
             }
 
             if (is_array($resolvedRouteAction) && count($resolvedRouteAction) === 2) {
-                $this->resolveControllerRoute($resolvedRouteAction, $parameters);
+                $this->resolveControllerRoute($resolvedRouteAction, $urlParameters);
             }
 
             $this->lastAfterMiddlewareResults = $this->runMiddlewares($uri, $method, true);
@@ -94,7 +90,7 @@ class RouterService
         return $this;
     }
 
-    private function applyMiddlewares(string $path, string $method, array $middleWares, bool $isAfterMiddleware = false): void
+    protected function applyMiddlewares(string $path, string $method, array $middleWares, bool $isAfterMiddleware = false): void
     {
         $middlewareArray = $isAfterMiddleware ? $this->afterMiddlewares : $this->beforeMiddlewares;
         $currentMiddlewares =  $middlewareArray[$method][$path] ?? [];
@@ -107,26 +103,26 @@ class RouterService
         }
     }
 
-    private function resolveCallbackRoute(Closure $resolvedRouteAction, array $parameters): Void
+    protected function resolveCallbackRoute(Closure $resolvedRouteAction, array $parameters): Void
     {
         $reflection = new ReflectionFunction($resolvedRouteAction);
-        $callParameters = $this->getArguments($parameters, $reflection);
+        $callParameters = $this->sanitazedUriArguments($parameters, $reflection);
 
         call_user_func_array($resolvedRouteAction, $callParameters);
     }
 
-    private function resolveControllerRoute(array $resolvedRouteAction, array $parameters): Void
+    protected function resolveControllerRoute(array $resolvedRouteAction, array $parameters): Void
     {
         $controllerName = $resolvedRouteAction[self::RESOLVED_ROUTE_CONTROLLER_NAME_INDEX];
         $functionName = $resolvedRouteAction[self::RESOLVED_ROUTE_FUNCTION_NAME_INDEX];
         $controller = $this->createControllerOrGetFromCache($controllerName);
         $reflection = new ReflectionMethod($controllerName, $functionName);
-        $callParameters = $this->getArguments($parameters, $reflection);
+        $callParameters = $this->sanitazedUriArguments($parameters, $reflection);
 
         call_user_func_array([$controller, $functionName], $callParameters);
     }
 
-    private function matchRoutes(string $method = self::HTTP_METHOD_GET): array
+    protected function matchRoutes(string $method = self::HTTP_METHOD_GET): array
     {
         $uri = $this->cleanedUri();
         if ($uri === null || !isset($this->routes[$method])) {
@@ -134,7 +130,7 @@ class RouterService
         }
 
         $matches = array_filter(array_keys($this->routes[self::HTTP_METHOD_GET]), function ($route) use ($uri) {
-            $regex = $this->getMathRegex($route);
+            $regex = $this->matchingRegexExpression($route);
 
             return preg_match($regex, $uri);
         });
@@ -150,7 +146,7 @@ class RouterService
         ];
     }
 
-    private function getMathRegex(string $route): string
+    protected function matchingRegexExpression(string $route): string
     {
         return '/' . implode('\/', array_map(function (string $urlChunk) {
             if (preg_match('/\{.+\}/', $urlChunk)) {
@@ -161,7 +157,7 @@ class RouterService
         }, explode('/', $route))) . '$/';
     }
 
-    private function getMatches(string $route, string $uri): array
+    protected function matchingUrlParameters(string $route, string $uri): array
     {
         $uriParts = explode('/', $uri);
         $parameters = [];
@@ -177,7 +173,7 @@ class RouterService
         return $parameters;
     }
 
-    private function createControllerOrGetFromCache(string $controllerName): object
+    protected function createControllerOrGetFromCache(string $controllerName): object
     {
         if ($controller = $this->getController($controllerName)) {
             return $controller;
@@ -203,7 +199,7 @@ class RouterService
         return $this->middlewareCache;
     }
 
-    private function getArguments(
+    protected function sanitazedUriArguments(
         array $parameters,
         ReflectionFunction|ReflectionMethod $reflection
     ): array {
@@ -233,7 +229,7 @@ class RouterService
         return $callParameters;
     }
 
-    private function converArgument(string $type, string $argument): mixed
+    protected function converArgument(string $type, string $argument): mixed
     {
         $result = filter_var($argument, FILTER_SANITIZE_STRING);
         switch ($type) {
@@ -247,7 +243,7 @@ class RouterService
         return $result;
     }
 
-    private function cleanedUri(): ?string
+    protected function cleanedUri(): ?string
     {
         $uri = explode('?', $this->request->getUri());
         $uri = reset($uri);
@@ -259,7 +255,7 @@ class RouterService
         return $uri === '/' ? $uri : rtrim($uri, '/');
     }
 
-    private function runMiddlewares(string $uri, string $method, bool $isAfterMiddleware = false): array
+    protected function runMiddlewares(string $uri, string $method, bool $isAfterMiddleware = false): array
     {
         $results = [];
         $middlewares = $isAfterMiddleware ? $this->afterMiddlewares : $this->beforeMiddlewares;

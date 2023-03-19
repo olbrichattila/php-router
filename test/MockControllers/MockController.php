@@ -3,10 +3,11 @@
 declare(strict_types=1);
 
 namespace Aolbrich\Router\Test\MockControllers;
+
 use Aolbrich\PhpRouter\Request\MockRequest;
 
-class MockController {
-    
+class MockController
+{
     public int $callCount = 0;
 
     public ?int $par1 = null;

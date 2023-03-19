@@ -11,9 +11,7 @@ use Aolbrich\PhpRouter\RouterService;
 use PHPUnit\Framework\TestCase;
 
 require_once 'MockControllers/MockController.php';
-/**
- * Summary of ContainerTest
- */
+
 class RouterFindRoutesInControllerTest extends TestCase
 {
     public function testRouterFindRootGetRoute(): void
@@ -25,8 +23,8 @@ class RouterFindRoutesInControllerTest extends TestCase
         $router->run();
 
         $controller = $router->getController(MockController::class);
-        $this->assertNotNull($controller); 
-        
+        $this->assertNotNull($controller);
+
         $this->assertEquals(1, $controller->callCount);
     }
 
@@ -42,8 +40,8 @@ class RouterFindRoutesInControllerTest extends TestCase
         $router->run();
 
         $controller = $router->getController(MockController::class);
-        $this->assertNotNull($controller); 
-        
+        $this->assertNotNull($controller);
+
         $this->assertEquals($par1, $controller->par1);
         $this->assertEquals($par2, $controller->par2);
     }

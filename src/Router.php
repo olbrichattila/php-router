@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Aolbrich\PhpRouter;
 
 use Aolbrich\PhpDiContainer\Container;
+use Aolbrich\PhpRouter\Request\Request;
 
 class Router
 {
@@ -18,9 +19,10 @@ class Router
 
         // return $container->get(RouterService::class);
 
-        // @TODO think over the DI
+        // @TODO think it over how to do the DI here, should use the APP di what we don't have here,
+        // or at least to be able to use the settings
         return new RouterService(
-            new \Aolbrich\PhpRouter\Request\Request(),
+            new Request(),
             new Container()
         );
     }
