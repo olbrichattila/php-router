@@ -295,6 +295,7 @@ class RouterService
 
     protected function runMiddlewares(string $uri, string $method, bool $isAfterMiddleware = false): array
     {
+        // @TODO middleware should implement intetface, and shoud be checked if it is the isntance of
         $results = [];
         $middlewares = $isAfterMiddleware ? $this->afterMiddlewares : $this->beforeMiddlewares;
         if (isset($middlewares[$method][$uri])) {
