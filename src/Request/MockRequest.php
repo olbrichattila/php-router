@@ -16,4 +16,9 @@ class MockRequest implements RequestInterface
     {
         $this->uri = $uri;
     }
+
+    public function getMethod(): string
+    {
+        return 'GET';
+    }
 }

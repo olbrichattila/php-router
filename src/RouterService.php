@@ -14,6 +14,11 @@ use ReflectionNamedType;
 class RouterService
 {
     private const HTTP_METHOD_GET = 'GET';
+    private const HTTP_METHOD_POST = 'POST';
+    private const HTTP_METHOD_PATCH = 'PATCH';
+    private const HTTP_METHOD_PUT = 'PUT';
+    private const HTTP_METHOD_DELETE = 'DELETE';
+
     private const ROUTE_DEFINITION_INDEX = 0;
     private const RESOLVED_ACTION_STRUCT_INDEX = 1;
     private const RESOLVED_ROUTE_CONTROLLER_NAME_INDEX = 0;
@@ -21,6 +26,10 @@ class RouterService
 
     private const VALID_METHODS = [
         self::HTTP_METHOD_GET,
+        self::HTTP_METHOD_POST,
+        self::HTTP_METHOD_PUT,
+        self::HTTP_METHOD_PATCH,
+        self::HTTP_METHOD_DELETE,
     ];
 
 
@@ -42,27 +51,31 @@ class RouterService
 
     public function Run(): array
     {
-        foreach (self::VALID_METHODS as $method) {
-            [$route, $uri] = $this->matchRoutes($method);
-            if (!$route) {
-                //$todo cannot resolve, @todo throw 404
-                die('404');
-            }
-
-            $this->lastBeforeMiddlewareResults = $this->runMiddlewares($uri, $method, false);
-
-            $urlParameters = $this->matchingUrlParameters($route[self::ROUTE_DEFINITION_INDEX], $uri);
-            $resolvedRouteAction = $route[self::RESOLVED_ACTION_STRUCT_INDEX];
-            if (is_callable($resolvedRouteAction)) {
-                $this->resolveCallbackRoute($resolvedRouteAction, $urlParameters);
-            }
-
-            if (is_array($resolvedRouteAction) && count($resolvedRouteAction) === 2) {
-                $this->resolveControllerRoute($resolvedRouteAction, $urlParameters);
-            }
-
-            $this->lastAfterMiddlewareResults = $this->runMiddlewares($uri, $method, true);
+        $method = $this->request->getMethod();
+        if (!in_array($method, self::VALID_METHODS)) {
+            // @todo create proper exception class
+            throw new \Exception('Invalid method ' . $method);
         }
+
+        [$route, $uri] = $this->matchRoutes($method);
+        if (!$route) {
+            //$todo cannot resolve, @todo throw 404
+            die('404');
+        }
+
+        $this->lastBeforeMiddlewareResults = $this->runMiddlewares($uri, $method, false);
+
+        $urlParameters = $this->matchingUrlParameters($route[self::ROUTE_DEFINITION_INDEX], $uri);
+        $resolvedRouteAction = $route[self::RESOLVED_ACTION_STRUCT_INDEX];
+        if (is_callable($resolvedRouteAction)) {
+            $this->resolveCallbackRoute($resolvedRouteAction, $urlParameters);
+        }
+
+        if (is_array($resolvedRouteAction) && count($resolvedRouteAction) === 2) {
+            $this->resolveControllerRoute($resolvedRouteAction, $urlParameters);
+        }
+
+        $this->lastAfterMiddlewareResults = $this->runMiddlewares($uri, $method, true);
 
         return [
             $this->lastBeforeMiddlewareResults,
@@ -72,20 +85,45 @@ class RouterService
 
     public function get(string $path, Closure|array $route, array $beforeMiddleWares = [], array $afterMiddleWares = []): self
     {
-        $this->routes[self::HTTP_METHOD_GET][$path] = $route;
-        if (!empty($beforeMiddleWares)) {
-            $this->applyMiddlewares($path, self::HTTP_METHOD_GET, $beforeMiddleWares, false);
-        }
-        if (!empty($afterMiddleWares)) {
-            $this->applyMiddlewares($path, self::HTTP_METHOD_GET, $afterMiddleWares, true);
-        }
+        return $this->method($path, $route, self::HTTP_METHOD_GET, $beforeMiddleWares, $afterMiddleWares);
+    }
 
-        return $this;
+    public function post(string $path, Closure|array $route, array $beforeMiddleWares = [], array $afterMiddleWares = []): self
+    {
+        return $this->method($path, $route, self::HTTP_METHOD_POST, $beforeMiddleWares, $afterMiddleWares);
+    }
+
+    public function put(string $path, Closure|array $route, array $beforeMiddleWares = [], array $afterMiddleWares = []): self
+    {
+        return $this->method($path, $route, self::HTTP_METHOD_PUT, $beforeMiddleWares, $afterMiddleWares);
+    }
+
+    public function patch(string $path, Closure|array $route, array $beforeMiddleWares = [], array $afterMiddleWares = []): self
+    {
+        return $this->method($path, $route, self::HTTP_METHOD_PATCH, $beforeMiddleWares, $afterMiddleWares);
+    }
+
+    public function delete(string $path, Closure|array $route, array $beforeMiddleWares = [], array $afterMiddleWares = []): self
+    {
+        return $this->method($path, $route, self::HTTP_METHOD_DELETE, $beforeMiddleWares, $afterMiddleWares);
     }
 
     public function middleware(array $beforeMiddlewares, array $afterMiddlewares, Closure $callable): self
     {
         $callable(new MiddlewareAdapter($this, $beforeMiddlewares, $afterMiddlewares));
+
+        return $this;
+    }
+
+    protected function method(string $path, Closure|array $route, string $method, array $beforeMiddleWares = [], array $afterMiddleWares = []): self
+    {
+        $this->routes[$method][$path] = $route;
+        if (!empty($beforeMiddleWares)) {
+            $this->applyMiddlewares($path, $method, $beforeMiddleWares, false);
+        }
+        if (!empty($afterMiddleWares)) {
+            $this->applyMiddlewares($path, $method, $afterMiddleWares, true);
+        }
 
         return $this;
     }

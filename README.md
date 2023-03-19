@@ -1,7 +1,6 @@
 # PHP Router component
 
 ## !!! This component is under development, not poduction ready yet !!! 
-(Currently only get is supported, other methods coming soon)
 
 ## Features
 
