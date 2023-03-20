@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Aolbrich\PhpRouter\Request;
+namespace Aolbrich\PhpRouter\Http\Request;
 
 // these requests may go to another library, and will be imported, injected
 class Request implements RequestInterface

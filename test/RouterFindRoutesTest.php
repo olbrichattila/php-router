@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Aolbrich\Router\Test;
 
 use Aolbrich\PhpDiContainer\Container;
-use Aolbrich\PhpRouter\Request\MockRequest;
+use Aolbrich\PhpRouter\Http\Request\Request;
+use Aolbrich\PhpRouter\Http\Request\MockRequest;
 use Aolbrich\PhpRouter\RouterService;
 use PHPUnit\Framework\TestCase;
 
@@ -14,9 +15,12 @@ class RouterFindRoutesTest extends TestCase
     public function testRouterFindRootGetRoute(): void
     {
         $isCalled = null;
-        $request = new MockRequest();
+        $container = new Container();
+        $container->set(Request::class, function($container) {
+            return $container->singleton(MockRequest::class);
+        });
 
-        $router = new RouterService($request, new Container());
+        $router = new RouterService($container);
         $router->get('/', function () use (&$isCalled) {
             $isCalled = true;
         });
@@ -28,10 +32,14 @@ class RouterFindRoutesTest extends TestCase
     public function testRouterFindRootGetRouteWithParameters(): void
     {
         $isCalled = null;
-        $request = new MockRequest();
+        $container = new Container();
+        $container->set(Request::class, function($container) {
+            return $container->singleton(MockRequest::class);
+        });
+        $request = $container->get(Request::class);
         $request->setUri('/api/foo/5/edit/50/id');
 
-        $router = new RouterService($request, new Container());
+        $router = new RouterService($container);
         $router->get('/api/foo/{id}/edit/{customer}/id', function ($id, $customer) use (&$isCalled) {
             $isCalled = true;
         });
@@ -43,10 +51,14 @@ class RouterFindRoutesTest extends TestCase
     public function testRouterFindRootGetRouteWithParametersAndCustomParameter(): void
     {
         $isCalled = null;
-        $request = new MockRequest();
+        $container = new Container();
+        $container->set(Request::class, function($container) {
+            return $container->singleton(MockRequest::class);
+        });
+        $request = $container->get(Request::class);
         $request->setUri('/api/foo/5/edit/50/id?test=true');
 
-        $router = new RouterService($request, new Container());
+        $router = new RouterService($container);
         $router->get('/api/foo/{id}/edit/{customer}/id', function () use (&$isCalled) {
             $isCalled = true;
         });

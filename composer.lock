@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aolbrich/php-di-container",
-            "version": "v1.0.5",
+            "version": "v1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/olbrichattila/php-di-container.git",
-                "reference": "17085146cbcaa1c27658511b68c14544b45472b8"
+                "reference": "b5f974bc558f604fe9c20e40616624789c462348"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/olbrichattila/php-di-container/zipball/17085146cbcaa1c27658511b68c14544b45472b8",
-                "reference": "17085146cbcaa1c27658511b68c14544b45472b8",
+                "url": "https://api.github.com/repos/olbrichattila/php-di-container/zipball/b5f974bc558f604fe9c20e40616624789c462348",
+                "reference": "b5f974bc558f604fe9c20e40616624789c462348",
                 "shasum": ""
             },
             "require": {
@@ -51,9 +51,9 @@
             ],
             "support": {
                 "issues": "https://github.com/olbrichattila/php-di-container/issues",
-                "source": "https://github.com/olbrichattila/php-di-container/tree/v1.0.5"
+                "source": "https://github.com/olbrichattila/php-di-container/tree/v1.0.8"
             },
-            "time": "2023-03-18T09:08:20+00:00"
+            "time": "2023-03-20T17:31:52+00:00"
         },
         {
             "name": "psr/container",
@@ -656,16 +656,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.0.16",
+            "version": "10.0.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "07d386a11ac7094032900f07cada1c8975d16607"
+                "reference": "b75eddcabca052312ae38c8a2bc69ff1a7b89b77"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/07d386a11ac7094032900f07cada1c8975d16607",
-                "reference": "07d386a11ac7094032900f07cada1c8975d16607",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/b75eddcabca052312ae38c8a2bc69ff1a7b89b77",
+                "reference": "b75eddcabca052312ae38c8a2bc69ff1a7b89b77",
                 "shasum": ""
             },
             "require": {
@@ -736,7 +736,8 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.0.16"
+                "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.0.17"
             },
             "funding": [
                 {
@@ -752,7 +753,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-03-13T09:02:40+00:00"
+            "time": "2023-03-20T14:42:33+00:00"
         },
         {
             "name": "sebastian/cli-parser",

@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Aolbrich\PhpRouter\Request;
+namespace Aolbrich\PhpRouter\Http\Request;
 
 class MockRequest implements RequestInterface
 {
     private string $uri = '/';
+    private string $method = 'GET';
     public function getUri(): string
     {
         return $this->uri;
@@ -19,6 +20,11 @@ class MockRequest implements RequestInterface
 
     public function getMethod(): string
     {
-        return 'GET';
+        return $this->method;
+    }
+
+    public function setMethod(string $method): void
+    {
+        $this->method = $method;
     }
 }

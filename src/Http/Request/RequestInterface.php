@@ -1,6 +1,6 @@
 <?php
 
-namespace Aolbrich\PhpRouter\Request;
+namespace Aolbrich\PhpRouter\Http\Request;
 
 interface RequestInterface
 {

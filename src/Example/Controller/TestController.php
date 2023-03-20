@@ -3,18 +3,28 @@
 declare(strict_types=1);
 
 namespace Aolbrich\PhpRouter\Example\Controller;
+use Aolbrich\PhpRouter\Http\Response\JsonResponse;
+use Aolbrich\PhpRouter\Http\Response\ResponseInterface;
 
 class TestController
 {
-    public function index()
+    public function index(): string
     {
-        echo "works";
+        return "works";
     }
 
-    public function params(string $text, int $id): void
+    public function params(string $text, int $id): string
     {
-        echo $text . '<br>';
-        echo $id . '<br>';
-        echo 'Works';
+        return
+            $text . '<br>' .
+            $id . '<br>' .
+             'Works';
+    }
+
+    public function json(JsonResponse $response): ResponseInterface
+    {
+        $response->mergeToJson(['status' => 'OK']);
+
+        return $response;
     }
 }

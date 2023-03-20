@@ -3,12 +3,15 @@
 declare(strict_types=1);
 
 namespace Aolbrich\PhpRouter\Example\Middleware;
+use Aolbrich\PhpRouter\Http\Response\Response;
 
 class TestMiddleware
 {
-    public function handle(): string
+    public function handle(Response $response): Response
     {
-        echo "Before Middleware 1<br>";
-        return "4";
+        echo "body 1 " . $response->getBody();
+        $response->setBody('Body Set');
+        echo " Before Middleware 1<br>";
+        return $response;
     }
 }

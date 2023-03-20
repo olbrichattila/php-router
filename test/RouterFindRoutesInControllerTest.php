@@ -6,7 +6,8 @@ namespace Aolbrich\Router\Test;
 
 use Aolbrich\Router\Test\MockControllers\MockController;
 use Aolbrich\PhpDiContainer\Container;
-use Aolbrich\PhpRouter\Request\MockRequest;
+use Aolbrich\PhpRouter\Http\Request\Request;
+use Aolbrich\PhpRouter\Http\Request\MockRequest;
 use Aolbrich\PhpRouter\RouterService;
 use PHPUnit\Framework\TestCase;
 
@@ -16,9 +17,13 @@ class RouterFindRoutesInControllerTest extends TestCase
 {
     public function testRouterFindRootGetRoute(): void
     {
-        $request = new MockRequest();
-
-        $router = new RouterService($request, new Container());
+        $container = new Container();
+        $container->set(Request::class, function($container) {
+            return $container->singleton(MockRequest::class);
+        });
+        $request = $container->get(Request::class);
+        $router = new RouterService($container);
+        
         $router->get('/', [MockController::class, 'index']);
         $router->run();
 
@@ -26,16 +31,31 @@ class RouterFindRoutesInControllerTest extends TestCase
         $this->assertNotNull($controller);
 
         $this->assertEquals(1, $controller->callCount);
+
+        $otherMethods = ['POST', 'PUT', 'PATCH', 'DELETE'];
+        foreach ($otherMethods as $otherMethod) {
+            $methodFunctionName = strtolower($otherMethod);
+            $request->setMethod($otherMethod);
+            $router->$methodFunctionName('/', [MockController::class, $methodFunctionName]);
+            $router->run();
+            $countVarableName = $methodFunctionName . 'Count';
+
+            $this->assertEquals(1, $controller->$countVarableName, $countVarableName);
+        }
     }
 
     public function testRouterFindRouteAndPassParameters(): void
     {
         $par1 = 50;
         $par2 = "hello";
-        $request = new MockRequest();
+        $container = new Container();
+        $container->set(Request::class, function($container) {
+            return $container->singleton(MockRequest::class);
+        });
+        $request = $container->get(Request::class);
         $request->setUri('/test/par1/' . $par1 . '/par2/' . $par2);
+        $router = new RouterService($container);
 
-        $router = new RouterService($request, new Container());
         $router->get('/test/par1/{par1}/par2/{par2}', [MockController::class, 'paramteterTest']);
         $router->run();
 

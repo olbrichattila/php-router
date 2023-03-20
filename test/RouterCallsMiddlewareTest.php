@@ -6,7 +6,8 @@ namespace Aolbrich\Router\Test;
 
 use Aolbrich\Router\Test\MockMidlewares\MockMiddleware;
 use Aolbrich\PhpDiContainer\Container;
-use Aolbrich\PhpRouter\Request\MockRequest;
+use Aolbrich\PhpRouter\Http\Request\Request;
+use Aolbrich\PhpRouter\Http\Request\MockRequest;
 use Aolbrich\PhpRouter\RouterService;
 use PHPUnit\Framework\TestCase;
 
@@ -17,9 +18,13 @@ class RouterCallsMiddlewareTest extends TestCase
 {
     public function testRouterInvokesMiddleware(): void
     {
-        $request = new MockRequest();
-
-        $router = new RouterService($request, new Container());
+        $container = new Container();
+        $container->set(Request::class, function($container) {
+            return $container->singleton(MockRequest::class);
+        });
+        
+        $router = new RouterService($container);
+        
         $router->middleware([
             MockMiddleware::class
         ], [
@@ -28,7 +33,8 @@ class RouterCallsMiddlewareTest extends TestCase
             $router->get('/', function () {
             });
         });
-        $middlewareResults = $router->run();
+        
+        $router->run();
 
         $middlewares = $router->getMiddlewareInstances();
 
@@ -37,8 +43,5 @@ class RouterCallsMiddlewareTest extends TestCase
 
         // Handle function called twice
         $this->assertEquals(2, $middlewares[MockMiddleware::class]->callCount);
-
-        // There are two middleware results
-        $this->assertCount(2, $middlewareResults);
     }
 }
