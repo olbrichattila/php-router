@@ -57,7 +57,7 @@ class RouterService
         $container->set(JsonResponse::class, function ($container) {
             return $container->singleton(JsonResponse::class);
         });
-        
+
         $this->request = $container->get(Request::class);
     }
 
@@ -90,23 +90,27 @@ class RouterService
         $urlParameters = $this->matchingUrlParameters($route[self::ROUTE_DEFINITION_INDEX], $uri);
         $resolvedRouteAction = $route[self::RESOLVED_ACTION_STRUCT_INDEX];
         if (is_callable($resolvedRouteAction)) {
-            $this->lastControllerResult = $this->resolveCallbackRoute($resolvedRouteAction, $urlParameters);
+            $this->lastControllerResult = $this->resolveCallbackRoute(
+                $resolvedRouteAction, $urlParameters
+            );
         }
 
         if (is_array($resolvedRouteAction) && count($resolvedRouteAction) === 2) {
-            $this->lastControllerResult = $this->resolveControllerRoute($resolvedRouteAction, $urlParameters);
+            $this->lastControllerResult = $this->resolveControllerRoute(
+                $resolvedRouteAction, $urlParameters
+            );
         }
 
         $this->runMiddlewares($uri, $method, true);
 
         if ($this->lastControllerResult instanceof ResponseInterface) {
-            return $this->lastControllerResult;    
+            return $this->lastControllerResult;
         }
 
-         $response = new Response();
-         $response->setBody((string)$this->lastControllerResult);
-        
-         return $response;
+        $response = new Response();
+        $response->setBody((string)$this->lastControllerResult);
+
+        return $response;
     }
 
     public function get(string $path, Closure|array $route, array $beforeMiddleWares = [], array $afterMiddleWares = []): self
@@ -134,15 +138,23 @@ class RouterService
         return $this->method($path, $route, self::HTTP_METHOD_DELETE, $beforeMiddleWares, $afterMiddleWares);
     }
 
-    public function middleware(array $beforeMiddlewares, array $afterMiddlewares, Closure $callable): self
-    {
+    public function middleware(
+        array $beforeMiddlewares,
+        array $afterMiddlewares,
+        Closure $callable
+    ): self {
         $callable(new MiddlewareAdapter($this, $beforeMiddlewares, $afterMiddlewares));
 
         return $this;
     }
 
-    protected function method(string $path, Closure|array $route, string $method, array $beforeMiddleWares = [], array $afterMiddleWares = []): self
-    {
+    protected function method(
+        string $path,
+        Closure|array $route,
+        string $method,
+        array $beforeMiddleWares = [],
+        array $afterMiddleWares = []
+    ): self {
         $this->routes[$method][$path] = $route;
         if (!empty($beforeMiddleWares)) {
             $this->applyMiddlewares($path, $method, $beforeMiddleWares, false);
@@ -154,8 +166,12 @@ class RouterService
         return $this;
     }
 
-    protected function applyMiddlewares(string $path, string $method, array $middleWares, bool $isAfterMiddleware = false): void
-    {
+    protected function applyMiddlewares(
+        string $path,
+        string $method,
+        array $middleWares,
+        bool $isAfterMiddleware = false
+    ): void {
         $middlewareArray = $isAfterMiddleware ? $this->afterMiddlewares : $this->beforeMiddlewares;
         $currentMiddlewares =  $middlewareArray[$method][$path] ?? [];
         $mergedMiddlewares = array_merge($currentMiddlewares, $middleWares);
@@ -167,8 +183,10 @@ class RouterService
         }
     }
 
-    protected function resolveCallbackRoute(Closure $resolvedRouteAction, array $parameters): mixed
-    {
+    protected function resolveCallbackRoute(
+        Closure $resolvedRouteAction,
+        array $parameters
+    ): mixed {
         $reflection = new ReflectionFunction($resolvedRouteAction);
         $callParameters = $this->sanitazedUriArguments($parameters, $reflection);
 
@@ -193,11 +211,14 @@ class RouterService
             return [null, null];
         }
 
-        $matches = array_filter(array_keys($this->routes[$method]), function ($route) use ($uri) {
-            $regex = $this->matchingRegexExpression($route);
+        $matches = array_filter(
+            array_keys($this->routes[$method]),
+            function ($route) use ($uri) {
+                $regex = $this->matchingRegexExpression($route);
 
-            return preg_match($regex, $uri);
-        });
+                return preg_match($regex, $uri);
+            }
+        );
         $match = reset($matches);
 
         if (!$match) {
@@ -260,7 +281,10 @@ class RouterService
 
         foreach (array_keys($dependencies) as $key) {
             if (is_string($dependencies[$key])) {
-                $dependencies[$key] = filter_var($dependencies[$key], FILTER_SANITIZE_ADD_SLASHES);
+                $dependencies[$key] = filter_var(
+                    $dependencies[$key],
+                    FILTER_SANITIZE_ADD_SLASHES
+                );
             }
         }
 
@@ -291,14 +315,21 @@ class RouterService
                     $this->middlewareCache[$middleware] = $middlewareInstance;
                 }
 
-                $reflection = new ReflectionMethod($this->middlewareCache[$middleware], 'handle');
+                $reflection = new ReflectionMethod(
+                    $this->middlewareCache[$middleware],
+                    'handle'
+                );
                 $dependencies = $this->container->getDependencies(
                     $reflection->getParameters(),
                     '',
                     []
                 );
 
-                $this->lastMiddlewareResult = call_user_func_array([$this->middlewareCache[$middleware], 'handle'], $dependencies);
+                $this->lastMiddlewareResult = call_user_func_array(
+                    [$this->middlewareCache[$middleware], 'handle'],
+                    $dependencies
+                );
+
                 $results[$method][$uri][$middleware] = $this->lastMiddlewareResult;
             }
         }

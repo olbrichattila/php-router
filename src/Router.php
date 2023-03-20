@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Aolbrich\PhpRouter;
 
 use Aolbrich\PhpDiContainer\Container;
-use Aolbrich\PhpRouter\Http\Request\Request;
-
 
 class Router
 {
