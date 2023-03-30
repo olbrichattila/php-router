@@ -27,4 +27,17 @@ class MockRequest implements RequestInterface
     {
         $this->method = $method;
     }
+
+    public function body(): string
+    {
+        return "";
+    }
+    public function jsonBody(): ?array
+    {
+        return null;
+    }
+    public function params(): array
+    {
+        return [];
+    }
 }
