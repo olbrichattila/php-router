@@ -9,6 +9,7 @@ namespace Aolbrich\PhpRouter\Http\Request\Validator;
 use Aolbrich\PhpRouter\Http\Request\Validator\ValidationRuleInterface;
 use Aolbrich\PhpRouter\Http\Request\Validator\Config\RequestValidatorConfig;
 use Aolbrich\PhpRouter\Http\Request\Validator\Rules\Exception\RequestValidationRuleException;
+use Closure;
 
 class ValidationRuleFactory
 {
@@ -24,6 +25,11 @@ class ValidationRuleFactory
         }
 
         throw new RequestValidationRuleException('Validation rule ' . $ruleName . ' not exists!');
+    }
+
+    public function setRule(string $ruleName, string|callable|Closure $rule): void
+    {
+        $this->requestValidatorConfig->setRule($ruleName, $rule);
     }
 
     protected function getValidationRuleByName(string $ruleName): ?string

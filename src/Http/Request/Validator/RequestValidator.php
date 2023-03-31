@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Aolbrich\PhpRouter\Http\Request\Validator;
 
 use Aolbrich\PhpRouter\Http\Request\RequestInterface;
+use Closure;
 
 class RequestValidator implements RequestValidatorInterface
 {
@@ -25,6 +26,17 @@ class RequestValidator implements RequestValidatorInterface
 
         foreach ($validationRules as $field => $validationRuleName) {
             $value = $params[$field] ?? null;
+            if (is_callable($validationRuleName)) {
+                $validattionMessage = $validationRuleName($value);
+                if ($validattionMessage === null) {
+                    $this->validated[$field] = $value;
+                } else {
+                    $this->validationErrors[$field] = $validattionMessage;
+                }
+
+                continue;
+            }
+            
             $this->applyValidations($params, $value, $field, $validationRuleName);
         }
 
@@ -37,6 +49,11 @@ class RequestValidator implements RequestValidatorInterface
     public function validationErrors(): array
     {
         return $this->validationErrors;
+    }
+
+    public function setRule(string $ruleName, string|callable|Closure $rule): void
+    {
+        $this->validationRuleFactory->setRule($ruleName, $rule);
     }
 
     protected function applyValidations(

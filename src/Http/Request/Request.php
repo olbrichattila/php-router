@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Aolbrich\PhpRouter\Http\Request;
 
 use Aolbrich\PhpRouter\Http\Request\Validator\RequestValidator;
+use Closure;
 
 //@todo these requests may go to another library, and will be imported, injected
 class Request implements RequestInterface
@@ -56,6 +57,12 @@ class Request implements RequestInterface
         return $this->validationErrors;
     }
 
+
+    public function setRule(string $ruleName, string|callable|Closure $rule): void
+    {
+        $this->requestValidator->setRule($ruleName, $rule);
+    }
+    
     protected function sanitaze(array $params): array
     {
         return array_reduce(array_keys($params), function (array $accumulator, string $key) use ($params) {

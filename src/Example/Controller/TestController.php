@@ -37,6 +37,12 @@ class TestController
             'par1' => 'required|min:10|max:20',
             'par2' => 'required|min-length:2|max-length:4',
             'par3' => 'regex:/^[0-9]+$/',
+            'par4' => function($value) {
+                return "'{$value}' validation callback";
+            },
+            'par5' => function($value) {
+                return null;
+            }
         ]);
 
         $response->arrayToJson(
