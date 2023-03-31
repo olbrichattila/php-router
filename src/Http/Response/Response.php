@@ -1,4 +1,5 @@
 <?php
+// @todo create a MOCK header class on namespace
 
 namespace Aolbrich\PhpRouter\Http\Response;
 
@@ -24,6 +25,11 @@ class Response implements ResponseInterface
         $this->headers[$key] = $value;
     }
 
+    public function headers(): array
+    {
+        return $this->headers;
+    }
+    
     public function setBody(string $body): void
     {
         $this->body = $body;
@@ -33,7 +39,7 @@ class Response implements ResponseInterface
     {
         return $this->body;
     }
-    
+
     public function render(): void
     {
         $this->renderHeaders();

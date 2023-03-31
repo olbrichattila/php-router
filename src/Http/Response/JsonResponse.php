@@ -25,7 +25,7 @@ class JsonResponse extends Response
     {
         $originalContent = $this->getBodyAsArray();
         $newContent = array_merge($originalContent, $array);
-        
+
         $this->arrayToJson($newContent);
     }
 }

@@ -9,11 +9,12 @@ use Aolbrich\PhpRouter\Http\Request\RequestInterface;
 class RequestValidator implements RequestValidatorInterface
 {
     public function __construct(protected readonly ValidationRuleFactory $validationRuleFactory)
-    {}
+    {
+    }
     protected array $validationRules = [];
     protected array $validated = [];
     protected array $validationErrors = [];
-    
+
     public function validate(
         RequestInterface $request,
         array $validationRules
@@ -21,17 +22,10 @@ class RequestValidator implements RequestValidatorInterface
         $this->validated = [];
         $this->validationErrors = [];
         $params = $request->params();
-        foreach($validationRules as $field => $validationRuleName) {
+
+        foreach ($validationRules as $field => $validationRuleName) {
             $value = $params[$field] ?? null;
-            $validationRule = $this->validationRuleFactory->rule($validationRuleName);
-            $validationResult = $validationRule->validate($value);
-
-            if ($validationResult === true) {
-                $this->validated[$field] = $value;
-                continue;
-            }
-
-            $this->validationErrors[$field] = $validationRule->message();
+            $this->applyValidations($params, $value, $field, $validationRuleName);
         }
 
         return $this;
@@ -43,5 +37,44 @@ class RequestValidator implements RequestValidatorInterface
     public function validationErrors(): array
     {
         return $this->validationErrors;
+    }
+
+    protected function applyValidations(
+        array $params,
+        mixed $value,
+        string $field,
+        string $validationRuleName
+    ): void {
+        $validated = true;
+        foreach (explode('|', $validationRuleName) as $splittedRule) {
+            if ($this->applyValidation($params, $value, $field, $splittedRule) === false) {
+                $validated = false;
+            };
+        }
+
+        if ($validated === true) {
+            $this->validated[$field] = $value;
+        }
+    }
+
+    protected function applyValidation(
+        array $params,
+        mixed $value,
+        string $field,
+        string $validationRuleName
+    ): bool {
+        $ruleParams = explode(':', $validationRuleName);
+        $filteredValidationRuleName = $ruleParams[0];
+        $ruleParam = $ruleParams[1] ?? '';
+        $validationRule = $this->validationRuleFactory->rule($filteredValidationRuleName);
+        $validationResult = $validationRule->validate($value, $ruleParam);
+
+        if ($validationResult === true) {
+            return true;
+        }
+
+        $this->validationErrors[$field] = $validationRule->message();
+
+        return false;
     }
 }

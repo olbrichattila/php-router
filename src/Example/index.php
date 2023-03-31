@@ -12,20 +12,9 @@ require_once realpath(__DIR__ . '/../../vendor') . '/autoload.php';
 
 $router = Router::getRouter();
 
-$router->get('/', function (Request $request) {
-    // var_dump($request->params());
-    $validated = $request->validate(
-        ['abc' => 'required']
-    );
-    $errors = $request->validatonErrors();
-
-    var_dump($validated);
-    var_dump($errors);
+$router->get('/', function () {
     return "it works";
-})->post('/', function (Request $request) {
-    var_dump($request->params());
-    var_dump($request->jsonBody());
-    var_dump($request->body());
+})->post('/', function () {
     return "it works";
 })->get('/api/{id}/edit', function (int $id, Request $request) {
     return "Api works \n" . $id . print_r($request->params(), true);
@@ -51,6 +40,8 @@ $router->middleware([
         return 'Controller 1<br>' . $response->getBody();
     });
 });
+
+$router->get('/validation', [\Aolbrich\PhpRouter\Example\Controller\TestController::class, 'validator']);
 
 $response = $router->run();
 $response->render();

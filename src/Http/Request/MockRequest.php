@@ -8,6 +8,7 @@ class MockRequest implements RequestInterface
 {
     private string $uri = '/';
     private string $method = 'GET';
+    private array $params = [];
     public function getUri(): string
     {
         return $this->uri;
@@ -36,8 +37,14 @@ class MockRequest implements RequestInterface
     {
         return null;
     }
+
+    public function setParams(array $params)
+    {
+        $this->params = $params;
+    }
+
     public function params(): array
     {
-        return [];
+        return $this->params;
     }
 }

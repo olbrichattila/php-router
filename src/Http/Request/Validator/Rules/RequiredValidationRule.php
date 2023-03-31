@@ -6,22 +6,15 @@ namespace Aolbrich\PhpRouter\Http\Request\Validator\Rules;
 
 use Aolbrich\PhpRouter\Http\Request\Validator\ValidationRuleInterface;
 
-class RequiredValidationRule implements ValidationRuleInterface
+class RequiredValidationRule extends ValidationRuleBase implements ValidationRuleInterface
 {
-    /**
-     * Summary of validate
-     * @param mixed $value
-     * @return bool
-     */
-    public function validate(mixed $value): bool
+    public function validate(mixed $value, string $validationParam = ''): bool
     {
-        return $value != null;
+        return $this->isSet($value);
     }
 
     public function message(): string
     {
-        return "required";
+        return 'Required';
     }
 }
-
-// these requests may go to another library, and will be imported, injected

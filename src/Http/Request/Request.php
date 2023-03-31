@@ -1,16 +1,19 @@
 <?php
-// TODO add validator
 
 declare(strict_types=1);
 
 namespace Aolbrich\PhpRouter\Http\Request;
+
 use Aolbrich\PhpRouter\Http\Request\Validator\RequestValidator;
 
-// these requests may go to another library, and will be imported, injected
+//@todo these requests may go to another library, and will be imported, injected
 class Request implements RequestInterface
 {
     protected array $validationErrors = [];
-    public function __construct(protected readonly RequestValidator $requestValidator) {}
+
+    public function __construct(protected readonly RequestValidator $requestValidator)
+    {
+    }
     public function getUri(): string
     {
         return $_SERVER['REQUEST_URI'] ?? '/';
@@ -35,8 +38,6 @@ class Request implements RequestInterface
     {
         $getParams = $_GET ?? [];
         $postParams = $_POST ?? [];
-        // todo get url router params
-
         $mergedResult = array_merge($getParams, $postParams);
 
         return $this->sanitaze($mergedResult);
@@ -50,7 +51,7 @@ class Request implements RequestInterface
         return $validator->validated();
     }
 
-    public function validatonErrors(): array
+    public function validationErrors(): array
     {
         return $this->validationErrors;
     }

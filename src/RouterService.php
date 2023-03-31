@@ -91,13 +91,15 @@ class RouterService
         $resolvedRouteAction = $route[self::RESOLVED_ACTION_STRUCT_INDEX];
         if (is_callable($resolvedRouteAction)) {
             $this->lastControllerResult = $this->resolveCallbackRoute(
-                $resolvedRouteAction, $urlParameters
+                $resolvedRouteAction,
+                $urlParameters
             );
         }
 
         if (is_array($resolvedRouteAction) && count($resolvedRouteAction) === 2) {
             $this->lastControllerResult = $this->resolveControllerRoute(
-                $resolvedRouteAction, $urlParameters
+                $resolvedRouteAction,
+                $urlParameters
             );
         }
 
