@@ -16,13 +16,13 @@ class RequestTest extends TestCase
         $request = $container->get(Request::class);
 
         $uri = $request->getUri();
-        
+
         $this->assertEquals('/', $uri);
 
         $_SERVER['REQUEST_URI'] = '/test';
 
         $uri = $request->getUri();
-        
+
         $this->assertEquals('/test', $uri);
     }
 
@@ -32,13 +32,13 @@ class RequestTest extends TestCase
         $request = $container->get(Request::class);
 
         $method = $request->getMethod();
-        
+
         $this->assertEquals('GET', $method);
 
         $_SERVER['REQUEST_METHOD'] = 'PATCH';
 
         $method = $request->getMethod();
-        
+
         $this->assertEquals('PATCH', $method);
     }
 
@@ -86,10 +86,9 @@ class RequestTest extends TestCase
      */
     public function testValidatatorWorks(): void
     {
-       
         $container = new Container();
         $request = $container->get(Request::class);
-        
+
         $_GET = [
             'par1' => 'param_value',
         ];

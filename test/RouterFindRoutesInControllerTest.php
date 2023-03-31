@@ -18,12 +18,12 @@ class RouterFindRoutesInControllerTest extends TestCase
     public function testRouterFindRootGetRoute(): void
     {
         $container = new Container();
-        $container->set(Request::class, function($container) {
+        $container->set(Request::class, function ($container) {
             return $container->singleton(MockRequest::class);
         });
         $request = $container->get(Request::class);
         $router = new RouterService($container);
-        
+
         $router->get('/', [MockController::class, 'index']);
         $router->run();
 
@@ -49,7 +49,7 @@ class RouterFindRoutesInControllerTest extends TestCase
         $par1 = 50;
         $par2 = "hello";
         $container = new Container();
-        $container->set(Request::class, function($container) {
+        $container->set(Request::class, function ($container) {
             return $container->singleton(MockRequest::class);
         });
         $request = $container->get(Request::class);

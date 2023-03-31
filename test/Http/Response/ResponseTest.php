@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Aolbrich\Router\Test\Http\Response;
 
-
 use Aolbrich\PhpRouter\Http\Response\Response;
 use PHPUnit\Framework\TestCase;
 

@@ -38,7 +38,6 @@ class RouterService
     private array $middlewareCache = [];
     private array $beforeMiddlewares = [];
     private array $afterMiddlewares = [];
-    private mixed $lastMiddlewareResult = null;
     private mixed $lastControllerResult = null;
     private RequestInterface $request;
 
@@ -61,12 +60,7 @@ class RouterService
         $this->request = $container->get(Request::class);
     }
 
-    /**
-     * Summary of Run
-     * @throws \Exception
-     * @return ResponseInterface
-     */
-    public function Run(): ResponseInterface
+    public function run(): ResponseInterface
     {
         $method = $this->request->getMethod();
         if (!in_array($method, self::VALID_METHODS)) {
@@ -84,7 +78,6 @@ class RouterService
             return $response;
         }
 
-        $this->lastMiddlewareResult = null;
         $this->runMiddlewares($uri, $method, false);
 
         $urlParameters = $this->matchingUrlParameters($route[self::ROUTE_DEFINITION_INDEX], $uri);
@@ -117,27 +110,27 @@ class RouterService
 
     public function get(string $path, Closure|array $route, array $beforeMiddleWares = [], array $afterMiddleWares = []): self
     {
-        return $this->method($path, $route, self::HTTP_METHOD_GET, $beforeMiddleWares, $afterMiddleWares);
+        return $this->storeRouteMethod($path, $route, self::HTTP_METHOD_GET, $beforeMiddleWares, $afterMiddleWares);
     }
 
     public function post(string $path, Closure|array $route, array $beforeMiddleWares = [], array $afterMiddleWares = []): self
     {
-        return $this->method($path, $route, self::HTTP_METHOD_POST, $beforeMiddleWares, $afterMiddleWares);
+        return $this->storeRouteMethod($path, $route, self::HTTP_METHOD_POST, $beforeMiddleWares, $afterMiddleWares);
     }
 
     public function put(string $path, Closure|array $route, array $beforeMiddleWares = [], array $afterMiddleWares = []): self
     {
-        return $this->method($path, $route, self::HTTP_METHOD_PUT, $beforeMiddleWares, $afterMiddleWares);
+        return $this->storeRouteMethod($path, $route, self::HTTP_METHOD_PUT, $beforeMiddleWares, $afterMiddleWares);
     }
 
     public function patch(string $path, Closure|array $route, array $beforeMiddleWares = [], array $afterMiddleWares = []): self
     {
-        return $this->method($path, $route, self::HTTP_METHOD_PATCH, $beforeMiddleWares, $afterMiddleWares);
+        return $this->storeRouteMethod($path, $route, self::HTTP_METHOD_PATCH, $beforeMiddleWares, $afterMiddleWares);
     }
 
     public function delete(string $path, Closure|array $route, array $beforeMiddleWares = [], array $afterMiddleWares = []): self
     {
-        return $this->method($path, $route, self::HTTP_METHOD_DELETE, $beforeMiddleWares, $afterMiddleWares);
+        return $this->storeRouteMethod($path, $route, self::HTTP_METHOD_DELETE, $beforeMiddleWares, $afterMiddleWares);
     }
 
     public function middleware(
@@ -150,7 +143,7 @@ class RouterService
         return $this;
     }
 
-    protected function method(
+    protected function storeRouteMethod(
         string $path,
         Closure|array $route,
         string $method,
@@ -327,12 +320,10 @@ class RouterService
                     []
                 );
 
-                $this->lastMiddlewareResult = call_user_func_array(
+                $results[$method][$uri][$middleware] = call_user_func_array(
                     [$this->middlewareCache[$middleware], 'handle'],
                     $dependencies
                 );
-
-                $results[$method][$uri][$middleware] = $this->lastMiddlewareResult;
             }
         }
 

@@ -16,7 +16,7 @@ class RouterFindRoutesTest extends TestCase
     {
         $isCalled = null;
         $container = new Container();
-        $container->set(Request::class, function($container) {
+        $container->set(Request::class, function ($container) {
             return $container->singleton(MockRequest::class);
         });
 
@@ -33,7 +33,7 @@ class RouterFindRoutesTest extends TestCase
     {
         $isCalled = null;
         $container = new Container();
-        $container->set(Request::class, function($container) {
+        $container->set(Request::class, function ($container) {
             return $container->singleton(MockRequest::class);
         });
         $request = $container->get(Request::class);
@@ -52,7 +52,7 @@ class RouterFindRoutesTest extends TestCase
     {
         $isCalled = null;
         $container = new Container();
-        $container->set(Request::class, function($container) {
+        $container->set(Request::class, function ($container) {
             return $container->singleton(MockRequest::class);
         });
         $request = $container->get(Request::class);

@@ -19,12 +19,12 @@ class RouterCallsMiddlewareTest extends TestCase
     public function testRouterInvokesMiddleware(): void
     {
         $container = new Container();
-        $container->set(Request::class, function($container) {
+        $container->set(Request::class, function ($container) {
             return $container->singleton(MockRequest::class);
         });
-        
+
         $router = new RouterService($container);
-        
+
         $router->middleware([
             MockMiddleware::class
         ], [
@@ -33,7 +33,7 @@ class RouterCallsMiddlewareTest extends TestCase
             $router->get('/', function () {
             });
         });
-        
+
         $router->run();
 
         $middlewares = $router->getMiddlewareInstances();
