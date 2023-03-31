@@ -23,6 +23,7 @@ class RequestValidatorConfig implements RequestValidatorConfigInterface
         'integer' => \Aolbrich\PhpRouter\Http\Request\Validator\Rules\IntegerValidationRule::class,
         'int' => \Aolbrich\PhpRouter\Http\Request\Validator\Rules\IntegerValidationRule::class,
         'float' => \Aolbrich\PhpRouter\Http\Request\Validator\Rules\FloatValidationRule::class,
+        'number' => \Aolbrich\PhpRouter\Http\Request\Validator\Rules\FloatValidationRule::class,
         // @todo add confirm-password|othepasswordfieldname (this might be trickier)
     ];
 
