@@ -41,6 +41,7 @@ public function validator(Request $request, JsonResponse $response): ResponseInt
         'par1' => 'required|min:10|max:20',
         'par2' => 'required|min-length:2|max-length:4',
         'par3' => 'regex:/^[0-9]+$/',
+        // custom validations with closure (function also can be provided)
         'par4' => function($value) {
             // Return string if value should report an error
             return "'{$value}' validation callback";
