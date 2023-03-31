@@ -42,9 +42,11 @@ public function validator(Request $request, JsonResponse $response): ResponseInt
         'par2' => 'required|min-length:2|max-length:4',
         'par3' => 'regex:/^[0-9]+$/',
         'par4' => function($value) {
+            // Return string if value should report an error
             return "'{$value}' validation callback";
         },
         'par5' => function($value) {
+            // return null if validation successfull
             return null;
         }
     ]);
