@@ -9,5 +9,7 @@
 - Automatic dependency injection in actions and constructor of controllers
 - Automatic depencency injection in route closures
 - Automatic depencency injection in middlewares
+- Route request validator (custom, closure)
+- Response, Json response
 
 ... coming soon
