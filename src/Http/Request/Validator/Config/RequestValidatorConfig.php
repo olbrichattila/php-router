@@ -20,6 +20,9 @@ class RequestValidatorConfig implements RequestValidatorConfigInterface
         'range' => \Aolbrich\PhpRouter\Http\Request\Validator\Rules\RangeValidationRule::class,
         'email' => \Aolbrich\PhpRouter\Http\Request\Validator\Rules\EmailValidationRule::class,
         'date' => \Aolbrich\PhpRouter\Http\Request\Validator\Rules\DateValidationRule::class,
+        'integer' => \Aolbrich\PhpRouter\Http\Request\Validator\Rules\IntegerValidationRule::class,
+        'int' => \Aolbrich\PhpRouter\Http\Request\Validator\Rules\IntegerValidationRule::class,
+        'float' => \Aolbrich\PhpRouter\Http\Request\Validator\Rules\FloatValidationRule::class,
         // @todo add confirm-password|othepasswordfieldname (this might be trickier)
     ];
 
