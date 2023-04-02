@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8294d711e2b32d970dfd519d5ea1c99d",
+    "content-hash": "372e5d4744632e9f4a1e70002169e16a",
     "packages": [
         {
             "name": "aolbrich/php-di-container",
@@ -54,6 +54,50 @@
                 "source": "https://github.com/olbrichattila/php-di-container/tree/v1.0.8"
             },
             "time": "2023-03-20T17:31:52+00:00"
+        },
+        {
+            "name": "aolbrich/request-response",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/olbrichattila/php-request-response.git",
+                "reference": "44594eeb6c2011595f5a91e4885be21c6fc3b6db"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/olbrichattila/php-request-response/zipball/44594eeb6c2011595f5a91e4885be21c6fc3b6db",
+                "reference": "44594eeb6c2011595f5a91e4885be21c6fc3b6db",
+                "shasum": ""
+            },
+            "require": {
+                "aolbrich/php-di-container": "^1.0",
+                "php": ">=8.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^10.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Aolbrich\\RequestResponse\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Attila Olbrich",
+                    "email": "olbrichattila@gmx.co.uk"
+                }
+            ],
+            "description": "Request and Response",
+            "support": {
+                "issues": "https://github.com/olbrichattila/php-request-response/issues",
+                "source": "https://github.com/olbrichattila/php-request-response/tree/v1.0.2"
+            },
+            "time": "2023-04-02T16:14:43+00:00"
         },
         {
             "name": "psr/container",

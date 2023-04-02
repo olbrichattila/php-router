@@ -6,8 +6,8 @@ namespace Aolbrich\Router\Test;
 
 use Aolbrich\Router\Test\MockControllers\MockController;
 use Aolbrich\PhpDiContainer\Container;
-use Aolbrich\PhpRouter\Http\Request\Request;
-use Aolbrich\PhpRouter\Http\Request\MockRequest;
+use Aolbrich\RequestResponse\Http\Request\Request;
+use Aolbrich\RequestResponse\Http\Request\MockRequest;
 use Aolbrich\PhpRouter\RouterService;
 use PHPUnit\Framework\TestCase;
 

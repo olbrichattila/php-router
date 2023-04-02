@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Aolbrich\PhpRouter;
 
-use Aolbrich\PhpRouter\Http\Request\RequestInterface;
-use Aolbrich\PhpRouter\Http\Response\ResponseInterface;
-use Aolbrich\PhpRouter\Http\Response\Response;
-use Aolbrich\PhpRouter\Http\Response\JsonResponse;
-use Aolbrich\PhpRouter\Http\Request\Request;
+use Aolbrich\RequestResponse\Http\Request\RequestInterface;
+use Aolbrich\RequestResponse\Http\Response\ResponseInterface;
+use Aolbrich\RequestResponse\Http\Response\Response;
+use Aolbrich\RequestResponse\Http\Response\JsonResponse;
+use Aolbrich\RequestResponse\Http\Request\Request;
 use Aolbrich\PhpDiContainer\Container;
 use Closure;
 use ReflectionFunction;

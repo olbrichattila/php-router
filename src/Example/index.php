@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Aolbrich\PhpRouter\Example;
 
 use Aolbrich\PhpRouter\Router;
-use Aolbrich\PhpRouter\Http\Request\Request;
-use Aolbrich\PhpRouter\Http\Response\Response;
+use Aolbrich\RequestResponse\Http\Request\Request;
+use Aolbrich\RequestResponse\Http\Response\Response;
 
 require_once realpath(__DIR__ . '/../../vendor') . '/autoload.php';
 

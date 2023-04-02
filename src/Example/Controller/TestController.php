@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Aolbrich\PhpRouter\Example\Controller;
 
-use Aolbrich\PhpRouter\Http\Request\Request;
-use Aolbrich\PhpRouter\Http\Response\JsonResponse;
-use Aolbrich\PhpRouter\Http\Response\ResponseInterface;
+use Aolbrich\RequestResponse\Http\Request\Request;
+use Aolbrich\RequestResponse\Http\Response\JsonResponse;
+use Aolbrich\RequestResponse\Http\Response\ResponseInterface;
 
 class TestController
 {

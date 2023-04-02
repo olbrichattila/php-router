@@ -18,6 +18,7 @@
         "phpunit/phpunit": "^10.0"
     },
     "require": {
-        "aolbrich/php-di-container": "^1.0"
+        "aolbrich/php-di-container": "^1.0",
+        "aolbrich/request-response": "^1.0"
     }
 }

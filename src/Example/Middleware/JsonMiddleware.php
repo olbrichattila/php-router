@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Aolbrich\PhpRouter\Example\Middleware;
 
-use Aolbrich\PhpRouter\Http\Response\JsonResponse;
-use Aolbrich\PhpRouter\Http\Response\ResponseInterface;
+use Aolbrich\RequestResponse\Http\Response\JsonResponse;
+use Aolbrich\RequestResponse\Http\Response\ResponseInterface;
 
 class JsonMiddleware
 {

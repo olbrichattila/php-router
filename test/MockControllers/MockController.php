@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Aolbrich\Router\Test\MockControllers;
 
-use Aolbrich\PhpRouter\Http\Request\MockRequest;
+use Aolbrich\RequestResponse\Http\Request\MockRequest;
 
 class MockController
 {
