@@ -57,16 +57,16 @@
         },
         {
             "name": "aolbrich/request-response",
-            "version": "v1.0.2",
+            "version": "v1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/olbrichattila/php-request-response.git",
-                "reference": "44594eeb6c2011595f5a91e4885be21c6fc3b6db"
+                "reference": "9a8a92a8e8a7f22c3ee830ff1e115108c9f3b9f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/olbrichattila/php-request-response/zipball/44594eeb6c2011595f5a91e4885be21c6fc3b6db",
-                "reference": "44594eeb6c2011595f5a91e4885be21c6fc3b6db",
+                "url": "https://api.github.com/repos/olbrichattila/php-request-response/zipball/9a8a92a8e8a7f22c3ee830ff1e115108c9f3b9f3",
+                "reference": "9a8a92a8e8a7f22c3ee830ff1e115108c9f3b9f3",
                 "shasum": ""
             },
             "require": {
@@ -95,9 +95,9 @@
             "description": "Request and Response",
             "support": {
                 "issues": "https://github.com/olbrichattila/php-request-response/issues",
-                "source": "https://github.com/olbrichattila/php-request-response/tree/v1.0.2"
+                "source": "https://github.com/olbrichattila/php-request-response/tree/v1.0.5"
             },
-            "time": "2023-04-02T16:14:43+00:00"
+            "time": "2023-04-02T16:43:57+00:00"
         },
         {
             "name": "psr/container",
@@ -700,16 +700,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.0.17",
+            "version": "10.0.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "b75eddcabca052312ae38c8a2bc69ff1a7b89b77"
+                "reference": "20c23e85c86e5c06d63538ba464e8054f4744e62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/b75eddcabca052312ae38c8a2bc69ff1a7b89b77",
-                "reference": "b75eddcabca052312ae38c8a2bc69ff1a7b89b77",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/20c23e85c86e5c06d63538ba464e8054f4744e62",
+                "reference": "20c23e85c86e5c06d63538ba464e8054f4744e62",
                 "shasum": ""
             },
             "require": {
@@ -781,7 +781,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.0.17"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.0.19"
             },
             "funding": [
                 {
@@ -797,7 +797,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-03-20T14:42:33+00:00"
+            "time": "2023-03-27T11:46:33+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -1101,16 +1101,16 @@
         },
         {
             "name": "sebastian/diff",
-            "version": "5.0.0",
+            "version": "5.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/diff.git",
-                "reference": "70dd1b20bc198da394ad542e988381b44e64e39f"
+                "reference": "aae9a0a43bff37bd5d8d0311426c87bf36153f02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/70dd1b20bc198da394ad542e988381b44e64e39f",
-                "reference": "70dd1b20bc198da394ad542e988381b44e64e39f",
+                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/aae9a0a43bff37bd5d8d0311426c87bf36153f02",
+                "reference": "aae9a0a43bff37bd5d8d0311426c87bf36153f02",
                 "shasum": ""
             },
             "require": {
@@ -1155,7 +1155,8 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/diff/issues",
-                "source": "https://github.com/sebastianbergmann/diff/tree/5.0.0"
+                "security": "https://github.com/sebastianbergmann/diff/security/policy",
+                "source": "https://github.com/sebastianbergmann/diff/tree/5.0.1"
             },
             "funding": [
                 {
@@ -1163,7 +1164,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-02-03T07:00:31+00:00"
+            "time": "2023-03-23T05:12:41+00:00"
         },
         {
             "name": "sebastian/environment",
